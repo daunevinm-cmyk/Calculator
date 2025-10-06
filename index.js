@@ -1,8 +1,5 @@
 //Caleb
 
-//to-do
-//set history to go behind the window when overflows
-//set cant divide by 0
 let num1;
 let num2;
 let operator;
@@ -102,7 +99,7 @@ function EqualButton()
     //put answer on bottom string and say can't divide by 0 if applicable
     if(num2 === "0" && operator === "/")
     {
-        UpdateBottomString(`Can't Divide by 0`)
+        UpdateBottomString(`Can't Divide by 0`);
     }
     else
     {
@@ -118,7 +115,11 @@ function EqualButton()
 
     fullEquation = finalEquation;
 
-    LogAnswer(displayFinalEquation, answer);
+    if(num2 !== "0" && operator !== "/")
+    {
+        LogAnswer(displayFinalEquation, answer);
+    }
+    
 
     calculationComplete = true;
     operatorJustPressed = false;
@@ -256,7 +257,11 @@ function DivideNumByOne()
 
     fullEquation = finalEquation;
 
-    LogAnswer(displayFinalEquation, answer)
+    if(num2 !== "0")
+    {
+        LogAnswer(displayFinalEquation, answer);
+    }
+    
 
     calculationComplete = true;
 }
