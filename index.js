@@ -58,7 +58,6 @@ function NumberButton(num)
 
 function OperatorButton(thisOperator)
 {
-    
 
     displayOperator = thisOperator.innerText;
     let actualOperator = thisOperator.value;
@@ -66,9 +65,6 @@ function OperatorButton(thisOperator)
     //assign operator as global variable
     operator = actualOperator;
 
-    //assign the first number in global variable
-    firstNumberDone = true;
-    num1 = currentNumber;
 
     //makes it so that if you complete a calculation and go to calculate based off the answer it work
     if(calculationComplete === true && answer !== Infinity)
@@ -77,13 +73,18 @@ function OperatorButton(thisOperator)
         num1 = answer;
         currentNumber = num1;
     }
+
+    //assign first number in global variable if not already done
+    if(!firstNumberDone)
+    {
+        num1 = currentNumber;
+        firstNumberDone = true;
+    }
+
+    operator = actualOperator;
     
-    //on operator clicked, add that to the full equation string
-    fullEquation = `${currentNumber} ${actualOperator}`;
-
     //display the display operator in the equation
-    let displayEquation = `${currentNumber} ${displayOperator}`
-
+    let displayEquation = `${num1} ${displayOperator}`
     UpdateTopString(displayEquation);
     UpdateBottomString("&nbsp;");
 
@@ -120,6 +121,7 @@ function EqualButton()
     LogAnswer(displayFinalEquation, answer);
 
     calculationComplete = true;
+    operatorJustPressed = false;
 }
 
 function UpdateTopString(newValue)
@@ -217,7 +219,16 @@ function ToggleNegativePositive()
 
 function DivideNumByOne()
 {
-    num2 = currentNumber;
+    //uses current number if no answer already to calculate off of
+    if(answer === "")
+    {
+        num2 = currentNumber;
+    }
+    else
+    {
+        num2 = answer;
+    }
+    
     num1 = 1;
     operator = "/";
 
@@ -252,18 +263,27 @@ function DivideNumByOne()
 
 function SquareRoot()
 {
-    answer = Math.sqrt(currentNumber);
+    //uses current number if no answer already to calculate off of
+    if(answer === "")
+    {
+        num2 = currentNumber;
+    }
+    else
+    {
+        num2 = answer;
+    }
+    answer = Math.sqrt(num2);
     
     //put answer on bottom string
     UpdateBottomString(answer);
 
     //put equation on top string with display operator
-    let displayFinalEquation = `Square root (${currentNumber})`;
+    let displayFinalEquation = `Square root (${num2})`;
     UpdateTopString(displayFinalEquation);
 
     console.log(displayFinalEquation);
 
-    fullEquation = Math.sqrt(currentNumber);
+    fullEquation = Math.sqrt(num2);
 
     LogAnswer(displayFinalEquation, answer)
 
@@ -272,22 +292,32 @@ function SquareRoot()
 
 function SquareNum()
 {
-    answer = currentNumber * currentNumber;
+    //uses current number if no answer already to calculate off of
+    if(answer === "")
+    {
+        num2 = currentNumber;
+    }
+    else
+    {
+        num2 = answer;
+    }
+    answer = num2 * num2;
     
     //put answer on bottom string
     UpdateBottomString(answer);
 
     //put equation on top string with display operator
-    let displayFinalEquation = `${currentNumber}^2`;
+    let displayFinalEquation = `${num2}^2`;
     UpdateTopString(displayFinalEquation);
 
     console.log(displayFinalEquation);
 
-    fullEquation = currentNumber * currentNumber;
+    fullEquation = currentNumber * num2;
 
     LogAnswer(displayFinalEquation, answer)
 
     calculationComplete = true;
+    
 }
 
 function LogAnswer(equation, answer)
